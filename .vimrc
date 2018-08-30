@@ -10,6 +10,7 @@
 set nocompatible
 set fileencodings=utf-8-bom,ucs-bom,utf-8,cp936,gb18030,ucs,big5
 filetype off
+"filetype plugin on
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
@@ -80,25 +81,25 @@ Bundle 'Lokaltog/vim-powerline.git'
 "Bundle 'zhangxiaoyang/CSApprox-stable.git'
 
 " awesome auto complete plugin
-Bundle 'Valloric/YouCompleteMe'
+"Bundle 'Valloric/YouCompleteMe'
 
 " javascript auto complete
 Bundle 'marijnh/tern_for_vim'
 
 " syntastic detection
-Bundle 'scrooloose/syntastic'
+"Bundle 'scrooloose/syntastic'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-let g:syntastic_python_checkers=['pylint']
-let g:syntastic_python_pylint_args='--disable=C0111,R0903,C0301'
+"let g:syntastic_python_checkers=['pylint']
+"let g:syntastic_python_pylint_args='--disable=C0111,R0903,C0301'
 
 """""""""""""""""""""""""""""""""""
 "    required
@@ -147,9 +148,11 @@ set smarttab
 set pastetoggle=<F12>
 set modeline
 set cursorline
-"hi cursorline term=bold cterm=bold guibg=grey40
+hi cursorline term=bold cterm=bold ctermbg=darkred guibg=darkred
 set cursorcolumn
 "hi cursorcolumn term=bold cterm=bold guibg=grey40
+
+au BufNewFile,BufRead *.osql setf sql
 
 inoremap ( ()<ESC>i
 inoremap ) <c-r>=ClosePair(')')<CR>
@@ -175,3 +178,24 @@ set foldmethod=manual
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR> 
 
 autocmd FileType javascript setlocal sw=2 ts=2 expandtab
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Quickly Run
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+map <F5> :call CompileRunGcc()<CR>
+
+func! CompileRunGcc()
+    exec "w" 
+    if &filetype == 'c' 
+        exec '!g++ % -o %<'
+        exec '!time ./%<'
+    elseif &filetype == 'cpp'
+        exec '!g++ % -o %<'
+        exec '!time ./%<'
+    elseif &filetype == 'python'
+        exec '!time python %'
+    elseif &filetype == 'sh'
+        :!time bash %
+    endif
+endfunc
