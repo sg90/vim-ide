@@ -1,6 +1,8 @@
 vim-ide
 ===
 
+`forked from zhangxiaoyang/vim-ide`
+
 Vim configuration based on [vundle](https://github.com/gmarik/vundle)
 
 Usage
