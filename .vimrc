@@ -54,11 +54,14 @@ Bundle 'winmanager'
 " <:bp> <:bn>
 Bundle 'minibufexplorerpp'
 
+nnoremap <TAB> :bn<CR>
+nnoremap <S-TAB> :bp<CR> 
+
 " c code tool
 "Bundle 'c.vim'
 
 " golang highlight
-Bundle 'fatih/vim-go'
+"Bundle 'fatih/vim-go'
 
 " scala highlight
 Bundle 'derekwyatt/vim-scala'
@@ -89,14 +92,13 @@ Bundle 'marijnh/tern_for_vim'
 " syntastic detection
 "Bundle 'scrooloose/syntastic'
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 
-"let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 "let g:syntastic_python_checkers=['pylint']
 "let g:syntastic_python_pylint_args='--disable=C0111,R0903,C0301'
@@ -168,7 +170,7 @@ function ClosePair(char)
     else
         return a:char
     endif
-endf
+endfunc
 
 set foldmethod=indent
 set hlsearch
@@ -194,7 +196,7 @@ func! CompileRunGcc()
         exec '!g++ % -o %<'
         exec '!time ./%<'
     elseif &filetype == 'python'
-        exec '!time python %'
+        exec '!clear && time python %'
     elseif &filetype == 'sh'
         :!time bash %
     endif
